@@ -391,18 +391,872 @@
       Kalo kamu penasaran tempatnya bisa klik di bawah yaa
     </p>
 
-    <a
-      href="https://maps.app.goo.gl/vGUTHJ3VrST4LvnT6"
-      target="_blank"
-      rel="noopener noreferrer"
+    <button
+      id="startLoveGameBtn"
       class="btn"
-      style="display:inline-block;text-decoration:none;margin-top:20px"
+      type="button"
+      style="margin-top:20px"
     >
-      📍 Buka Lokasi
-    </a>
+      🏹 Cari Jalan ke Kita
+    </button>
 
   </div>
 </section>
+
+
+<!-- =====================================================
+     MINI GAME LOVE ARROW
+===================================================== -->
+
+<div class="game-overlay" id="loveGame">
+
+  <div class="game-box">
+
+    <!-- Tombol Close -->
+    <button
+      class="game-close"
+      id="closeGame"
+      type="button"
+    >
+      ×
+    </button>
+
+
+    <!-- Judul Game -->
+    <h2>🏹 Shoot the Love ♡</h2>
+
+    <p>
+      Tembak 5 hati untuk menemukan jalan menuju kita ♡
+    </p>
+
+
+    <!-- Score -->
+    <div class="game-score">
+      Love:
+      <span id="gameScore">0</span>
+      / 5
+    </div>
+
+
+    <!-- Area Game -->
+    <div
+      class="game-board"
+      id="gameBoard"
+    >
+
+      <div
+        class="game-heart"
+        id="gameHeart"
+      >
+        ❤️
+      </div>
+
+    </div>
+
+
+    <!-- Pesan -->
+    <div
+      class="game-message"
+      id="gameMessage"
+    >
+      Arahkan panahmu dan tembak hatinya! 🏹
+    </div>
+
+
+    <!-- =========================
+         HASIL BERHASIL
+    ========================== -->
+
+    <div
+      class="game-success"
+      id="gameSuccess"
+    >
+
+      <h3>
+        You Found the Way ♡
+      </h3>
+
+      <p>
+        Lima hati sudah kamu tembak.
+        Sekarang waktunya menemukan tempat kita. 💗
+      </p>
+
+      <a
+        href="https://maps.app.goo.gl/vGUTHJ3VrST4LvnT6"
+        target="_blank"
+        class="game-button"
+      >
+        📍 Buka Lokasi Kita
+      </a>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+
+<!-- =====================================================
+     FLOATING MUSIC PLAYER
+===================================================== -->
+
+<div class="floating-music">
+
+  <div class="music-top">
+
+    <div class="music-info">
+
+      <div class="mini-disc">
+        ♡
+      </div>
+
+      <div class="music-text">
+
+        <h4 id="music-title">
+          Memuat musik...
+        </h4>
+
+        <p id="music-artist">
+          ...
+        </p>
+
+      </div>
+
+    </div>
+
+
+    <div class="mini-controls">
+
+      <button
+        id="prevBtn"
+        title="Previous"
+      >
+        ⏮
+      </button>
+
+      <button
+        id="playBtn"
+        title="Play"
+      >
+        ▶
+      </button>
+
+      <button
+        id="pauseBtn"
+        title="Pause"
+        style="display:none;"
+      >
+        ⏸
+      </button>
+
+      <button
+        id="nextBtn"
+        title="Next"
+      >
+        ⏭
+      </button>
+
+    </div>
+
+  </div>
+
+
+  <!-- Progress Bar & Durasi Waktu -->
+
+  <div class="progress-container">
+
+    <span id="current-time">
+      0:00
+    </span>
+
+    <input
+      type="range"
+      id="progress-bar"
+      min="0"
+      max="100"
+      value="0"
+    >
+
+    <span id="duration">
+      0:00
+    </span>
+
+  </div>
+
+
+  <audio
+    id="audio"
+    preload="metadata"
+  ></audio>
+
+</div>
+
+
+
+<!-- =====================================================
+     FOOTER
+===================================================== -->
+
+<footer>
+
+  made with a little bit of code &amp; a lot of love ♡
+
+  <br><br>
+
+  <strong>
+    Yanuar &amp; Sherin
+  </strong>
+
+  · 10.09.2026
+
+</footer>
+
+
+
+<!-- =====================================================
+     CSS MINI GAME
+     
+     TARUH CSS INI DI DALAM <style>
+     Kalau kamu mau paling gampang, boleh taruh
+     tepat sebelum <script> di bawah.
+===================================================== -->
+
+<style>
+
+/* ================================
+   MINI GAME OVERLAY
+================================ */
+
+.game-overlay {
+
+  display: none;
+
+  position: fixed;
+
+  inset: 0;
+
+  background:
+    rgba(20, 5, 15, 0.88);
+
+  backdrop-filter: blur(8px);
+
+  z-index: 9999;
+
+  align-items: center;
+
+  justify-content: center;
+
+  padding: 20px;
+
+}
+
+
+/* Ketika game dibuka */
+
+.game-overlay.active {
+
+  display: flex;
+
+}
+
+
+/* ================================
+   KOTAK GAME
+================================ */
+
+.game-box {
+
+  width: 100%;
+
+  max-width: 600px;
+
+  background:
+    linear-gradient(
+      145deg,
+      #2b1024,
+      #160812
+    );
+
+  border:
+    1px solid
+    rgba(255, 105, 180, 0.4);
+
+  border-radius: 25px;
+
+  padding: 25px;
+
+  text-align: center;
+
+  box-shadow:
+    0 0 40px
+    rgba(255, 80, 160, 0.25);
+
+  position: relative;
+
+}
+
+
+/* ================================
+   CLOSE BUTTON
+================================ */
+
+.game-close {
+
+  position: absolute;
+
+  top: 12px;
+
+  right: 16px;
+
+  background: none;
+
+  border: none;
+
+  color: #fff;
+
+  font-size: 25px;
+
+  cursor: pointer;
+
+}
+
+
+/* ================================
+   JUDUL
+================================ */
+
+.game-box h2 {
+
+  color: #ff8fc7;
+
+  margin-bottom: 8px;
+
+}
+
+
+.game-box p {
+
+  color: #ddd;
+
+  font-size: 14px;
+
+}
+
+
+/* ================================
+   SCORE
+================================ */
+
+.game-score {
+
+  margin: 15px 0;
+
+  color: #ffb6d9;
+
+  font-weight: bold;
+
+  font-size: 18px;
+
+}
+
+
+/* ================================
+   AREA GAME
+================================ */
+
+.game-board {
+
+  width: 100%;
+
+  height: 300px;
+
+  background:
+    rgba(255,255,255,0.04);
+
+  border:
+    1px solid
+    rgba(255,105,180,0.25);
+
+  border-radius: 18px;
+
+  position: relative;
+
+  overflow: hidden;
+
+  cursor: crosshair;
+
+  margin-top: 15px;
+
+}
+
+
+/* ================================
+   HATI
+================================ */
+
+.game-heart {
+
+  position: absolute;
+
+  font-size: 45px;
+
+  cursor: pointer;
+
+  user-select: none;
+
+  animation:
+    heartFloat 1.5s
+    ease-in-out
+    infinite;
+
+}
+
+
+/* Animasi hati */
+
+@keyframes heartFloat {
+
+  0%,
+  100% {
+
+    transform:
+      translateY(0);
+
+  }
+
+  50% {
+
+    transform:
+      translateY(-8px);
+
+  }
+
+}
+
+
+/* ================================
+   PESAN GAME
+================================ */
+
+.game-message {
+
+  min-height: 25px;
+
+  margin-top: 12px;
+
+  color: #ffb6d9;
+
+  font-size: 14px;
+
+}
+
+
+/* ================================
+   HASIL BERHASIL
+================================ */
+
+.game-success {
+
+  display: none;
+
+  margin-top: 20px;
+
+}
+
+
+.game-success h3 {
+
+  color: #ff8fc7;
+
+  font-size: 24px;
+
+}
+
+
+/* ================================
+   BUTTON MAPS
+================================ */
+
+.game-button {
+
+  display: inline-block;
+
+  border: none;
+
+  background:
+    linear-gradient(
+      135deg,
+      #ff5ca8,
+      #ff2f86
+    );
+
+  color: white;
+
+  padding: 12px 22px;
+
+  border-radius: 30px;
+
+  cursor: pointer;
+
+  font-size: 14px;
+
+  font-weight: bold;
+
+  text-decoration: none;
+
+}
+
+</style>
+
+
+
+<!-- =====================================================
+     JAVASCRIPT
+===================================================== -->
+
+<script>
+
+
+/* =====================================================
+   FLOATING HEARTS
+===================================================== */
+
+const hearts =
+  document.getElementById('hearts');
+
+const symbols =
+  ['♡','♥','✦','·'];
+
+
+function spawnHeart(){
+
+  const h =
+    document.createElement('span');
+
+  h.className =
+    'heart';
+
+  h.textContent =
+    symbols[
+      Math.floor(
+        Math.random() *
+        symbols.length
+      )
+    ];
+
+  h.style.left =
+    (Math.random() * 100) + '%';
+
+  h.style.fontSize =
+    (12 + Math.random() * 18) + 'px';
+
+  h.style.animationDuration =
+    (7 + Math.random() * 7) + 's';
+
+  h.style.animationDelay =
+    (Math.random() * 1.5) + 's';
+
+  hearts.appendChild(h);
+
+  setTimeout(
+    () => h.remove(),
+    16000
+  );
+
+}
+
+
+setInterval(
+  spawnHeart,
+  650
+);
+
+
+
+/* =====================================================
+   MINI GAME LOVE ARROW
+===================================================== */
+
+
+/* Ambil semua elemen */
+
+const startLoveGameBtn =
+  document.getElementById(
+    'startLoveGameBtn'
+  );
+
+const loveGame =
+  document.getElementById(
+    'loveGame'
+  );
+
+const closeGame =
+  document.getElementById(
+    'closeGame'
+  );
+
+const gameBoard =
+  document.getElementById(
+    'gameBoard'
+  );
+
+const gameHeart =
+  document.getElementById(
+    'gameHeart'
+  );
+
+const gameScore =
+  document.getElementById(
+    'gameScore'
+  );
+
+const gameMessage =
+  document.getElementById(
+    'gameMessage'
+  );
+
+const gameSuccess =
+  document.getElementById(
+    'gameSuccess'
+  );
+
+
+/* Score awal */
+
+let score = 0;
+
+
+
+/* =====================================================
+   BUKA GAME
+===================================================== */
+
+startLoveGameBtn.addEventListener(
+  'click',
+  function(){
+
+    /* tampilkan game */
+
+    loveGame.classList.add(
+      'active'
+    );
+
+
+    /* reset score */
+
+    score = 0;
+
+    gameScore.textContent =
+      score;
+
+
+    /* reset pesan */
+
+    gameMessage.textContent =
+      'Arahkan panahmu dan tembak hatinya! 🏹';
+
+
+    /* sembunyikan hasil */
+
+    gameSuccess.style.display =
+      'none';
+
+
+    /* tampilkan hati */
+
+    gameHeart.style.display =
+      'block';
+
+
+    /* pindahkan hati */
+
+    moveHeart();
+
+  }
+);
+
+
+
+/* =====================================================
+   TUTUP GAME
+===================================================== */
+
+closeGame.addEventListener(
+  'click',
+  function(){
+
+    loveGame.classList.remove(
+      'active'
+    );
+
+  }
+);
+
+
+
+/* =====================================================
+   GERAKKAN HATI KE POSISI RANDOM
+===================================================== */
+
+function moveHeart(){
+
+  const maxX =
+    gameBoard.clientWidth - 60;
+
+  const maxY =
+    gameBoard.clientHeight - 60;
+
+
+  const randomX =
+    Math.random() * maxX;
+
+  const randomY =
+    Math.random() * maxY;
+
+
+  gameHeart.style.left =
+    randomX + 'px';
+
+  gameHeart.style.top =
+    randomY + 'px';
+
+}
+
+
+
+/* =====================================================
+   KETIKA HATI DITEMBAK
+===================================================== */
+
+gameHeart.addEventListener(
+  'click',
+  function(event){
+
+    /* supaya tidak dianggap
+       klik area kosong */
+
+    event.stopPropagation();
+
+
+    /* tambah score */
+
+    score++;
+
+
+    gameScore.textContent =
+      score;
+
+
+
+    /* Kalau sudah 5 */
+
+    if(score >= 5){
+
+      /* hilangkan hati */
+
+      gameHeart.style.display =
+        'none';
+
+
+      /* pesan */
+
+      gameMessage.textContent =
+        'Semua hati berhasil kamu tembak! 💗';
+
+
+      /* tampilkan tombol Maps */
+
+      gameSuccess.style.display =
+        'block';
+
+
+    }
+
+    /* Kalau belum 5 */
+
+    else{
+
+      gameMessage.textContent =
+        'Kena! ❤️ Cari hati berikutnya...';
+
+
+      /* pindahkan hati */
+
+      moveHeart();
+
+    }
+
+  }
+);
+
+
+
+/* =====================================================
+   KLIK AREA KOSONG
+===================================================== */
+
+gameBoard.addEventListener(
+  'click',
+  function(){
+
+    gameMessage.textContent =
+      'Yahh meleset 😭 Coba lagi!';
+
+
+    moveHeart();
+
+  }
+);
+
+
+
+/* =====================================================
+   KLIK DI LUAR KOTAK GAME
+===================================================== */
+
+loveGame.addEventListener(
+  'click',
+  function(event){
+
+    if(
+      event.target === loveGame
+    ){
+
+      loveGame.classList.remove(
+        'active'
+      );
+
+    }
+
+  }
+);
+
+
+
+/* =====================================================
+   TOMBOL ESCAPE
+===================================================== */
+
+document.addEventListener(
+  'keydown',
+  function(event){
+
+    if(
+      event.key === 'Escape'
+    ){
+
+      loveGame.classList.remove(
+        'active'
+      );
+
+    }
+
+  }
+);
+
+
+</script>
   
   <!-- FLOATING MUSIC PLAYER -->
   <div class="floating-music">
